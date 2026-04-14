@@ -2,35 +2,23 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#07111f" />
   <title>К ВЗЛЕТУ</title>
-  <link rel="stylesheet" href="./styles.css" />
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="app">
-    <header class="hero">
-      <div class="badge">✈️ Airport Super App</div>
-      <h1>К ВЗЛЕТУ</h1>
-      <p>Все сервисы аэропорта в одном приложении</p>
-    </header>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
 
-    <section class="grid">
-      <button class="card" onclick="openSection('food')">🍔 Еда</button>
-      <button class="card" onclick="openSection('takeaway')">🥡 С собой</button>
-      <button class="card" onclick="openSection('taxi')">🚕 Такси</button>
-      <button class="card" onclick="openSection('hotel')">🏨 Гостиницы</button>
-      <button class="card" onclick="openSection('services')">🧳 Услуги</button>
-      <button class="card" onclick="openSection('orders')">📦 Мои заказы</button>
-    </section>
-
-    <section class="panel" id="content">
-      <h2>Добро пожаловать</h2>
-      <p>Выбери нужный сервис, чтобы посмотреть прототип сценария.</p>
-    </section>
-  </div>
+  <div id="app"></div>
 
   <script src="./data.js"></script>
-<script src="./app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
