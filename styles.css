@@ -1,0 +1,70 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.hero {
+  padding: 24px 0 12px;
+}
+
+.badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.card {
+  border: none;
+  border-radius: 18px;
+  padding: 18px;
+  font-size: 16px;
+  text-align: left;
+  background: white;
+  color: #111827;
+  cursor: pointer;
+  min-height: 88px;
+}
+
+.panel {
+  margin-top: 18px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
