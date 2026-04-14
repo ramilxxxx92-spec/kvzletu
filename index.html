@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>К ВЗЛЕТУ</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="badge">✈️ Airport Super App</div>
+      <h1>К ВЗЛЕТУ</h1>
+      <p>Все сервисы аэропорта в одном приложении</p>
+    </header>
+
+    <section class="grid">
+      <button class="card" onclick="openSection('food')">🍔 Еда</button>
+      <button class="card" onclick="openSection('takeaway')">🥡 С собой</button>
+      <button class="card" onclick="openSection('taxi')">🚕 Такси</button>
+      <button class="card" onclick="openSection('hotel')">🏨 Гостиницы</button>
+      <button class="card" onclick="openSection('services')">🧳 Услуги</button>
+      <button class="card" onclick="openSection('orders')">📦 Мои заказы</button>
+    </section>
+
+    <section class="panel" id="content">
+      <h2>Добро пожаловать</h2>
+      <p>Выбери нужный сервис, чтобы посмотреть прототип сценария.</p>
+    </section>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
