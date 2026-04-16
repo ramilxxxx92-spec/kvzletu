@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>К Взлету — Premium Prototype</title>
+  <meta name="theme-color" content="#ececeb" />
+  <title>К Взлету</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
       --bg: #ececeb;
       --bg-soft: #f6f5f3;
-      --panel: rgba(255,255,255,0.66);
-      --panel-strong: rgba(255,255,255,0.88);
-      --line: rgba(20,20,20,0.08);
+      --panel: rgba(255, 255, 255, 0.7);
+      --panel-strong: rgba(255, 255, 255, 0.9);
+      --line: rgba(20, 20, 20, 0.08);
       --text: #111111;
       --muted: #6f6f73;
-      --accent: #cfd8e2;
-      --accent-strong: #aab9c9;
-      --shadow: 0 14px 40px rgba(16,24,40,0.08);
+      --accent: #1454f5;
+      --accent-soft: #e8efff;
+      --shadow: 0 14px 40px rgba(16, 24, 40, 0.08);
       --radius-xl: 30px;
       --radius-lg: 24px;
       --radius-md: 18px;
@@ -24,7 +26,14 @@
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: linear-gradient(180deg, #efefee 0%, #ebebea 100%); color: var(--text); font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #efefee 0%, #ebebea 100%);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    }
+
     body { min-height: 100vh; }
 
     .app {
@@ -37,7 +46,11 @@
       overflow-x: hidden;
     }
 
-    .screen { display: none; animation: fade .28s ease; }
+    .screen {
+      display: none;
+      animation: fade .24s ease;
+    }
+
     .screen.active { display: block; }
 
     .topbar {
@@ -71,19 +84,22 @@
       color: #1d1d1f;
     }
 
-    .airport-code { font-weight: 700; letter-spacing: .04em; }
+    .airport-code {
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
 
     .intro {
       margin-bottom: 18px;
       font-size: 15px;
       color: var(--muted);
       line-height: 1.4;
-      max-width: 310px;
+      max-width: 320px;
     }
 
     .card {
       background: var(--panel);
-      border: 1px solid rgba(255,255,255,0.7);
+      border: 1px solid rgba(255, 255, 255, 0.7);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
       backdrop-filter: blur(20px);
@@ -123,7 +139,7 @@
       gap: 8px;
       padding: 8px 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.62);
+      background: rgba(255,255,255,0.72);
       border: 1px solid rgba(20,20,20,0.06);
       font-size: 12px;
       color: #2b2b2f;
@@ -131,43 +147,30 @@
 
     .hero {
       position: relative;
-      min-height: 250px;
+      min-height: 260px;
       background: linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0.02)), linear-gradient(135deg, #d8e0e7 0%, #ecf0f4 100%);
     }
 
     .hero-visual {
-      height: 210px;
+      height: 220px;
       border-radius: 0 0 28px 28px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0) 40%),
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.66), transparent 24%),
-        linear-gradient(135deg, #b8c8d7 0%, #e9eff4 55%, #f6f6f3 100%);
-      position: relative;
       overflow: hidden;
+      position: relative;
+      background: #dfe7f0;
     }
 
-    .wing {
-      position: absolute;
-      width: 290px;
-      height: 12px;
-      background: linear-gradient(90deg, #9db0c0, #dde7ef);
-      top: 86px;
-      left: 70px;
-      transform: rotate(18deg);
-      border-radius: 999px;
-      box-shadow: 0 18px 30px rgba(58,84,110,0.12);
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .wing::after {
-      content: "";
+    .hero-overlay {
       position: absolute;
-      right: 14px;
-      top: -20px;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px 10px 0 0;
-      background: linear-gradient(180deg, #8da3b7, #c5d2de);
-      transform: skewX(-18deg);
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
+      pointer-events: none;
     }
 
     .hero-panel {
@@ -175,7 +178,7 @@
       left: 14px;
       right: 14px;
       bottom: 14px;
-      background: rgba(255,255,255,0.84);
+      background: rgba(255,255,255,0.88);
       border: 1px solid rgba(20,20,20,0.06);
       border-radius: 24px;
       box-shadow: 0 10px 28px rgba(13,18,28,0.08);
@@ -244,7 +247,8 @@
       font-weight: 600;
     }
 
-    .slider {
+    .slider,
+    .cards-row {
       display: flex;
       gap: 12px;
       overflow-x: auto;
@@ -253,7 +257,10 @@
       padding-bottom: 4px;
     }
 
-    .slider::-webkit-scrollbar { display: none; }
+    .slider::-webkit-scrollbar,
+    .cards-row::-webkit-scrollbar {
+      display: none;
+    }
 
     .slide-card {
       min-width: 290px;
@@ -266,108 +273,84 @@
     }
 
     .slide-image {
-      height: 168px;
-      background: linear-gradient(135deg, #d5dde6, #f4f4f1);
+      height: 170px;
+      background: #dde5ec;
       position: relative;
+      overflow: hidden;
     }
 
-    .slide-image.lounge::before,
-    .slide-image.rest::before,
-    .slide-image.suite::before,
-    .slide-image.city::before,
-    .slide-image.event::before,
-    .nearby-thumb::before,
-    .hotel-thumb::before {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(203,213,225,.66));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    .slide-image img,
+    .mini-thumb img,
+    .hotel-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .slide-image.lounge::after {
-      content: "";
-      position: absolute;
-      left: 44px;
-      right: 44px;
-      bottom: 34px;
-      height: 34px;
-      border-radius: 18px;
-      background: linear-gradient(90deg, #c4d0db, #f5f5f2);
+    .slide-content {
+      padding: 16px;
     }
 
-    .slide-image.rest::after {
-      content: "";
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -40%);
-      background: radial-gradient(circle at 35% 35%, #ffffff, #ced8e1 65%, #b7c6d3);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    .slide-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: .95;
+      letter-spacing: -0.05em;
     }
 
-    .slide-image.suite::after {
-      content: "";
-      position: absolute;
-      left: 42px;
-      right: 42px;
-      top: 60px;
-      height: 62px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, #c7d2dc, #edf0f2);
-      box-shadow: 0 12px 24px rgba(22,22,22,0.06);
+    .slide-copy {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
     }
 
-    .slide-image.city::after {
-      content: "";
-      position: absolute;
-      left: 38px;
-      right: 38px;
-      bottom: 30px;
-      height: 58px;
-      border-radius: 18px;
-      background: linear-gradient(90deg, #bcc9d6, #e8eef2);
-    }
-
-    .slide-image.event::after {
-      content: "";
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      right: 36px;
-      bottom: 22px;
-      background: radial-gradient(circle at 32% 32%, #ffffff, #d8e2ea 70%);
-    }
-
-    .slide-content { padding: 16px; }
-    .slide-title { margin: 0 0 6px; font-size: 24px; line-height: .95; letter-spacing: -0.05em; }
-    .slide-copy { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; }
-
-    .grid-tiles {
+    .service-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    .tile {
-      min-height: 112px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.72);
+    .service-tile {
+      background: rgba(255,255,255,0.76);
       border: 1px solid rgba(20,20,20,0.05);
-      padding: 16px;
+      border-radius: 24px;
+      overflow: hidden;
       box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
     }
 
-    .tile-kicker { font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-    .tile-title { font-size: 20px; line-height: 1; letter-spacing: -0.04em; font-weight: 700; max-width: 140px; }
+    .service-thumb {
+      height: 112px;
+      background: #dee5ea;
+      overflow: hidden;
+    }
+
+    .service-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .service-body {
+      padding: 14px;
+    }
+
+    .service-kicker {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .service-title {
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+    }
 
     .cta {
       width: 100%;
@@ -383,24 +366,14 @@
     }
 
     .cta.secondary {
-      background: rgba(255,255,255,0.68);
+      background: rgba(255,255,255,0.72);
       color: #161616;
       border: 1px solid rgba(20,20,20,0.06);
     }
 
-    .cards-row {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      padding-bottom: 4px;
-    }
-
-    .cards-row::-webkit-scrollbar { display: none; }
-
     .mini-card {
       min-width: 220px;
-      background: rgba(255,255,255,0.74);
+      background: rgba(255,255,255,0.76);
       border: 1px solid rgba(20,20,20,0.05);
       border-radius: 28px;
       padding: 12px;
@@ -408,24 +381,51 @@
     }
 
     .mini-thumb,
-    .hotel-thumb,
-    .nearby-thumb {
+    .hotel-thumb {
       height: 160px;
       border-radius: 22px;
-      background: linear-gradient(135deg, #d4dde6, #f2f2ef);
+      background: #dde4eb;
       margin-bottom: 12px;
       position: relative;
       overflow: hidden;
     }
 
-    .mini-title { margin: 0; font-size: 18px; letter-spacing: -0.04em; }
-    .mini-sub { margin: 6px 0 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
-    .mini-meta { margin-top: 10px; font-size: 12px; color: #4f5965; }
+    .mini-title,
+    .hotel-title,
+    .favorite-title,
+    .profile-title,
+    .nearby-title {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .mini-sub,
+    .hotel-copy,
+    .favorite-copy,
+    .profile-copy,
+    .nearby-copy {
+      margin: 8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .mini-meta,
+    .hotel-price,
+    .favorite-note {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #2f3440;
+      font-weight: 600;
+    }
 
     .search-panel { padding: 14px; }
 
     .field {
-      background: rgba(255,255,255,0.72);
+      background: rgba(255,255,255,0.76);
       border: 1px solid rgba(20,20,20,0.05);
       border-radius: 22px;
       padding: 16px;
@@ -455,7 +455,7 @@
     .favorite-card,
     .profile-item,
     .nearby-item {
-      background: rgba(255,255,255,0.74);
+      background: rgba(255,255,255,0.76);
       border: 1px solid rgba(20,20,20,0.05);
       border-radius: 28px;
       box-shadow: var(--shadow);
@@ -465,35 +465,8 @@
     .hotel-body,
     .favorite-body,
     .profile-body,
-    .nearby-body { padding: 14px; }
-
-    .hotel-title,
-    .favorite-title,
-    .profile-title,
-    .nearby-title {
-      margin: 0;
-      font-size: 22px;
-      line-height: 1;
-      font-weight: 700;
-      letter-spacing: -0.05em;
-    }
-
-    .hotel-copy,
-    .favorite-copy,
-    .profile-copy,
-    .nearby-copy {
-      margin: 8px 0 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .hotel-price,
-    .favorite-note {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #2d3440;
-      font-weight: 600;
+    .nearby-body {
+      padding: 14px;
     }
 
     .favorite-row,
@@ -516,16 +489,20 @@
       font-size: 18px;
       cursor: pointer;
       color: #1b1b1f;
+      flex-shrink: 0;
     }
 
-    .heart.active { background: #151515; color: white; }
+    .heart.active {
+      background: #151515;
+      color: white;
+    }
 
     .profile-head {
       display: flex;
       gap: 14px;
       align-items: center;
       padding: 16px;
-      background: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.82);
       border: 1px solid rgba(20,20,20,0.04);
       border-radius: 30px;
       box-shadow: var(--shadow);
@@ -541,6 +518,7 @@
       place-items: center;
       font-weight: 700;
       letter-spacing: -0.03em;
+      flex-shrink: 0;
     }
 
     .profile-name {
@@ -567,7 +545,7 @@
       gap: 8px;
       padding: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.74);
       border: 1px solid rgba(20,20,20,0.06);
       box-shadow: 0 18px 40px rgba(16,24,40,0.1);
       backdrop-filter: blur(20px);
@@ -586,7 +564,10 @@
       font-weight: 500;
     }
 
-    .nav-btn.active { background: #151515; color: white; }
+    .nav-btn.active {
+      background: #151515;
+      color: white;
+    }
 
     .airport-sheet {
       position: fixed;
@@ -603,7 +584,7 @@
 
     .sheet-panel {
       width: min(430px, calc(100% - 16px));
-      background: rgba(255,255,255,0.86);
+      background: rgba(255,255,255,0.88);
       border: 1px solid rgba(20,20,20,0.05);
       border-radius: 28px;
       box-shadow: 0 30px 70px rgba(0,0,0,0.12);
@@ -625,9 +606,13 @@
       font-size: 22px;
       line-height: 1;
       letter-spacing: -0.05em;
+      font-weight: 700;
     }
 
-    .airport-list { display: grid; gap: 10px; }
+    .airport-list {
+      display: grid;
+      gap: 10px;
+    }
 
     .airport-option {
       width: 100%;
@@ -671,7 +656,8 @@
 
       <div class="card hero">
         <div class="hero-visual">
-          <div class="wing"></div>
+          <img src="./images/hero-flight.png" alt="Flight visual" onerror="this.style.display='none'">
+          <div class="hero-overlay"></div>
         </div>
         <div class="hero-panel">
           <div class="pill">Flight Overview</div>
@@ -705,23 +691,32 @@
               <p class="section-sub">Пространства, сервисы и сценарии отдыха перед вылетом</p>
             </div>
           </div>
+
           <div class="slider">
             <div class="slide-card">
-              <div class="slide-image suite"></div>
+              <div class="slide-image">
+                <img src="./images/komnata-otdyha.png" alt="Комната отдыха">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Комната отдыха</h4>
                 <p class="slide-copy">Короткий сон, тишина и приватное пространство между процедурами и boarding.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image lounge"></div>
+              <div class="slide-image">
+                <img src="./images/lounge-bar.png" alt="Lounge Bar">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Lounge Bar</h4>
                 <p class="slide-copy">Спокойная атмосфера, напитки, легкие блюда и комфортная посадочная зона.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image rest"></div>
+              <div class="slide-image">
+                <img src="./images/premium-dining.png" alt="Premium Dining">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Premium Dining</h4>
                 <p class="slide-copy">Подборка ресторанов рядом с вашим терминалом в актуальном контексте полета.</p>
@@ -739,11 +734,47 @@
               <p class="section-sub">Сервисы, которые чаще всего нужны до и после вылета</p>
             </div>
           </div>
-          <div class="grid-tiles">
-            <div class="tile"><div class="tile-kicker">Сервис</div><div class="tile-title">Горящие тарифы</div></div>
-            <div class="tile"><div class="tile-kicker">Помощь</div><div class="tile-title">Сопровождение</div></div>
-            <div class="tile"><div class="tile-kicker">Поиск</div><div class="tile-title">Умный поиск</div></div>
-            <div class="tile"><div class="tile-kicker">Комплекс</div><div class="tile-title">Комплексные услуги</div></div>
+
+          <div class="service-grid">
+            <div class="service-tile">
+              <div class="service-thumb">
+                <img src="./images/goryachie-tarify.png" alt="Горящие тарифы">
+              </div>
+              <div class="service-body">
+                <div class="service-kicker">Сервис</div>
+                <div class="service-title">Горящие тарифы</div>
+              </div>
+            </div>
+
+            <div class="service-tile">
+              <div class="service-thumb">
+                <img src="./images/soprovozhdenie.png" alt="Сопровождение">
+              </div>
+              <div class="service-body">
+                <div class="service-kicker">Помощь</div>
+                <div class="service-title">Сопровождение</div>
+              </div>
+            </div>
+
+            <div class="service-tile">
+              <div class="service-thumb">
+                <img src="./images/poisk.png" alt="Умный поиск">
+              </div>
+              <div class="service-body">
+                <div class="service-kicker">Поиск</div>
+                <div class="service-title">Умный поиск</div>
+              </div>
+            </div>
+
+            <div class="service-tile">
+              <div class="service-thumb">
+                <img src="./images/kompleksnye-uslugi.png" alt="Комплексные услуги">
+              </div>
+              <div class="service-body">
+                <div class="service-kicker">Комплекс</div>
+                <div class="service-title">Комплексные услуги</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -756,27 +787,39 @@
               <p class="section-sub">Подборка рядом с вашим терминалом</p>
             </div>
           </div>
+
           <div class="cards-row">
             <div class="mini-card">
-              <div class="mini-thumb"></div>
+              <div class="mini-thumb">
+                <img src="./images/irish-bar.png" alt="Irish Bar">
+              </div>
               <h4 class="mini-title">Irish Bar</h4>
               <p class="mini-sub">Европейская кухня</p>
               <div class="mini-meta">от 1 400 ₽</div>
             </div>
+
             <div class="mini-card">
-              <div class="mini-thumb"></div>
+              <div class="mini-thumb">
+                <img src="./images/chayhana-1.png" alt="Чайхана №1">
+              </div>
               <h4 class="mini-title">Чайхана №1</h4>
               <p class="mini-sub">Восточная кухня</p>
               <div class="mini-meta">от 1 200 ₽</div>
             </div>
+
             <div class="mini-card">
-              <div class="mini-thumb"></div>
+              <div class="mini-thumb">
+                <img src="./images/lounge-kafe.png" alt="Lounge Café">
+              </div>
               <h4 class="mini-title">Lounge Café</h4>
               <p class="mini-sub">Легкие блюда и кофе</p>
               <div class="mini-meta">от 900 ₽</div>
             </div>
           </div>
-          <div style="margin-top:14px;"><button class="cta">Изучить</button></div>
+
+          <div style="margin-top:14px;">
+            <button class="cta">Изучить</button>
+          </div>
         </div>
       </div>
 
@@ -788,30 +831,42 @@
               <p class="section-sub">Подобрано для вашего маршрута</p>
             </div>
           </div>
+
           <div class="slider">
             <div class="slide-card">
-              <div class="slide-image city"></div>
+              <div class="slide-image">
+                <img src="./images/sport-zal.png" alt="Wellness Club">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Wellness Club</h4>
                 <p class="slide-copy">Спортзал в городе прилета с доступным окном бронирования после посадки.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image rest"></div>
+              <div class="slide-image">
+                <img src="./images/dinner-reservation.png" alt="Dinner Reservation">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Dinner Reservation</h4>
                 <p class="slide-copy">Забронировать ресторан в городе ожидания пересадки под ваше окно времени.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image city"></div>
+              <div class="slide-image">
+                <img src="./images/city-carsharing.png" alt="City Carsharing">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">City Carsharing</h4>
                 <p class="slide-copy">Автомобиль по прибытии без лишних переходов между сервисами.</p>
               </div>
             </div>
           </div>
-          <div style="margin-top:14px;"><button class="cta secondary">Подробнее</button></div>
+
+          <div style="margin-top:14px;">
+            <button class="cta secondary">Подробнее</button>
+          </div>
         </div>
       </div>
 
@@ -823,30 +878,42 @@
               <p class="section-sub">Вдохновение для следующей поездки</p>
             </div>
           </div>
+
           <div class="slider">
             <div class="slide-card">
-              <div class="slide-image event"></div>
+              <div class="slide-image">
+                <img src="./images/bali.png" alt="Бали">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Бали</h4>
                 <p class="slide-copy">Фестиваль серфинга и сезон идеальной воды на побережье.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image event"></div>
+              <div class="slide-image">
+                <img src="./images/sankt-peterburg.png" alt="Санкт-Петербург">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Санкт-Петербург</h4>
                 <p class="slide-copy">Кинофестиваль и городская программа для культурного уикенда.</p>
               </div>
             </div>
+
             <div class="slide-card">
-              <div class="slide-image event"></div>
+              <div class="slide-image">
+                <img src="./images/yerevan.png" alt="Ереван">
+              </div>
               <div class="slide-content">
                 <h4 class="slide-title">Ереван</h4>
                 <p class="slide-copy">Концертная программа и гастрономические маршруты в центре города.</p>
               </div>
             </div>
           </div>
-          <div style="margin-top:14px;"><button class="cta secondary">Окунуться</button></div>
+
+          <div style="margin-top:14px;">
+            <button class="cta secondary">Окунуться</button>
+          </div>
         </div>
       </div>
 
@@ -858,12 +925,42 @@
               <p class="section-sub">Ближайшие точки и сервисы вокруг вашего терминала</p>
             </div>
           </div>
+
           <div class="list">
-            <div class="nearby-item"><div class="nearby-body nearby-row"><div><h4 class="nearby-title">Lounge Access</h4><p class="nearby-copy">Тихая зона · 3 минуты</p></div><div class="pill">Nearby</div></div></div>
-            <div class="nearby-item"><div class="nearby-body nearby-row"><div><h4 class="nearby-title">Irish Bar</h4><p class="nearby-copy">Ресторан · 2 минуты</p></div><div class="pill">Nearby</div></div></div>
-            <div class="nearby-item"><div class="nearby-body nearby-row"><div><h4 class="nearby-title">Shower Room</h4><p class="nearby-copy">Сервис восстановления · 4 минуты</p></div><div class="pill">Nearby</div></div></div>
+            <div class="nearby-item">
+              <div class="nearby-body nearby-row">
+                <div>
+                  <h4 class="nearby-title">Lounge Access</h4>
+                  <p class="nearby-copy">Тихая зона · 3 минуты</p>
+                </div>
+                <div class="pill">Nearby</div>
+              </div>
+            </div>
+
+            <div class="nearby-item">
+              <div class="nearby-body nearby-row">
+                <div>
+                  <h4 class="nearby-title">Irish Bar</h4>
+                  <p class="nearby-copy">Ресторан · 2 минуты</p>
+                </div>
+                <div class="pill">Nearby</div>
+              </div>
+            </div>
+
+            <div class="nearby-item">
+              <div class="nearby-body nearby-row">
+                <div>
+                  <h4 class="nearby-title">Shower Room</h4>
+                  <p class="nearby-copy">Сервис восстановления · 4 минуты</p>
+                </div>
+                <div class="pill">Nearby</div>
+              </div>
+            </div>
           </div>
-          <div style="margin-top:14px;"><button class="cta secondary">Посмотреть все</button></div>
+
+          <div style="margin-top:14px;">
+            <button class="cta secondary">Посмотреть все</button>
+          </div>
         </div>
       </div>
     </section>
@@ -899,25 +996,34 @@
               <p class="section-sub">Вымышленные предложения для презентационного прототипа</p>
             </div>
           </div>
+
           <div class="list">
             <div class="hotel-card">
-              <div class="hotel-thumb"></div>
+              <div class="hotel-thumb">
+                <img src="./images/hotel-1.png" alt="Aero Grand Residences" onerror="this.style.display='none'">
+              </div>
               <div class="hotel-body">
                 <h4 class="hotel-title">Aero Grand Residences</h4>
                 <p class="hotel-copy">Премиальный отель у терминала с панорамными номерами и ранним check-in.</p>
                 <div class="hotel-price">от 18 500 ₽ / ночь</div>
               </div>
             </div>
+
             <div class="hotel-card">
-              <div class="hotel-thumb"></div>
+              <div class="hotel-thumb">
+                <img src="./images/hotel-2.png" alt="Skyline Business Hotel" onerror="this.style.display='none'">
+              </div>
               <div class="hotel-body">
                 <h4 class="hotel-title">Skyline Business Hotel</h4>
                 <p class="hotel-copy">Для деловых поездок: тихие номера, переговорные комнаты и быстрый трансфер.</p>
                 <div class="hotel-price">от 14 200 ₽ / ночь</div>
               </div>
             </div>
+
             <div class="hotel-card">
-              <div class="hotel-thumb"></div>
+              <div class="hotel-thumb">
+                <img src="./images/hotel-3.png" alt="Cloud Nine Suites" onerror="this.style.display='none'">
+              </div>
               <div class="hotel-body">
                 <h4 class="hotel-title">Cloud Nine Suites</h4>
                 <p class="hotel-copy">Люкс-размещение со spa-зоной, private lounge и поздним выездом.</p>
@@ -925,7 +1031,10 @@
               </div>
             </div>
           </div>
-          <div style="margin-top:14px;"><button class="cta secondary">Изучить предложения</button></div>
+
+          <div style="margin-top:14px;">
+            <button class="cta secondary">Изучить предложения</button>
+          </div>
         </div>
       </div>
     </section>
@@ -945,6 +1054,7 @@
               <p class="section-sub">Жмите на сердечко, чтобы добавить предложение в избранное</p>
             </div>
           </div>
+
           <div class="list">
             <div class="favorite-card">
               <div class="favorite-body favorite-row">
@@ -956,6 +1066,7 @@
                 <button class="heart active">♡</button>
               </div>
             </div>
+
             <div class="favorite-card">
               <div class="favorite-body favorite-row">
                 <div>
@@ -966,6 +1077,7 @@
                 <button class="heart">♡</button>
               </div>
             </div>
+
             <div class="favorite-card">
               <div class="favorite-body favorite-row">
                 <div>
@@ -1047,6 +1159,7 @@
       Object.entries(screens).forEach(([key, el]) => {
         el.classList.toggle('active', key === name);
       });
+
       navButtons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.screen === name);
       });
@@ -1072,11 +1185,19 @@
         tg.setHeaderColor?.('#ececeb');
         tg.setBackgroundColor?.('#ececeb');
       } catch (e) {}
+
       const user = tg.initDataUnsafe?.user;
       if (user) {
-        const display = user.username ? `@${user.username}` : [user.first_name, user.last_name].filter(Boolean).join(' ') || 'Путешественник';
+        const display = user.username
+          ? `@${user.username}`
+          : [user.first_name, user.last_name].filter(Boolean).join(' ') || 'Путешественник';
+
         document.getElementById('profileName').textContent = display;
-        const letters = (user.first_name?.[0] || 'T') + (user.last_name?.[0] || 'G');
+
+        const letters =
+          (user.first_name?.[0] || 'T') +
+          (user.last_name?.[0] || 'G');
+
         document.getElementById('profileAvatar').textContent = letters.toUpperCase();
       }
     }
